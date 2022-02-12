@@ -1,0 +1,19 @@
+put 5 write
+put 6 write
+put 11 write
+drop drop drop
+
+put 5 
+put 6 
++ write
+drop
+
+put 11
+put 22
++ write
+drop
+
+put 8
+put 3
+- write
+drop
