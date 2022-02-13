@@ -11,7 +11,7 @@ OP_PLUS = 1
 OP_MINUS = 2
 OP_DUMP = 3
 OP_DROP = 4
-COUNT_OPS = 9
+COUNT_OPS = 10
 
 
 token = [
@@ -23,9 +23,11 @@ token = [
     "flip",
     "*",
     "/",
-    "as"
+    "as",
+    ";"
     ]
 comment = "#"
+ending = token[9]
 # The Stack. It stores all the data the programming language parse into a file.
 stack = []
 value_stack = []
@@ -41,7 +43,7 @@ def write():
 
 
 # For running the program.
-def com_prog(program): 
+def sim_prog(program): 
     stack = []
     value_stack = []
     whitespace = ' '
@@ -71,27 +73,62 @@ def com_prog(program):
                 print(f"(Debug [`as` valName: {program[p+1]}, value: {program[p-1]}] Stack: {stack})")
             elif program[p] == comment:
                 print(f"(Debug [`comment`] Stack: {stack})")
-#
+    def ifValName(program, valName, valGet, value):
+        # assert False, "`ifValName` is still broken."
+        value = value
+        # value_stack = value_stack
+        # valGet = value_stack.index(value)
+        print(f"(Debug [`callVar`]) valName: {valName}, Before value: {value}, After value: {valGet}, reaching here.")
+        key = ''
+        if program[p] == token[8]:
+            print(f"(Debug [`as` in `write`], valName: {valName}, value: {value}] Stack: {stack})")
+            value_stack = value_stack
+            valName = program[p+1]
+            value = program[p-1]
+            valGet = value_stack.index(value) - 1
+            value_stack.append(value)
+                # value_stack = value_stack
+            if program[p-1] == valName:
+                valName = valGet
+                value_stack.append(valName)
+                print(f"(Debug [`callVar`, valName: {valName}, value: {value}] Stack: {stack})")
+                # b = value_stack.pop()
+                # c = value_stack.swap()
+                # value_stack.append(a)
+                a = value_stack.pop()
+                print(a)
+                value_stack.append(value)
+                # if op != whitespace:
+                #     key += op
+        if op != whitespace:
+            key += op
     for p, op in enumerate(program):
         #  value_stack = []
-        assert COUNT_OPS == 9, "You have instructions not handled properly."
+        assert COUNT_OPS == 10, "You have instructions not handled properly."
         # print(op)
         if op != whitespace:
             key += op
         if (p + 1 < len(program)):
-            if program[p + 1] == whitespace:
+            if program[p+1] == whitespace:
                 print(key)
                 key = ''
+            elif program[p+1] == ending:
+                print("Ending ';' here")
         if program[p] == token[0]:
             stack.append(program[p+1])
+            # value_stack.append(program[p+1])
             if program[p] == token[8]:
+                # print("Pushing variables, reaching here.")
+                a = stack.pop()
                 value_stack = value_stack
                 valName = program[p+1]
                 value = program[p-1]
-                value_stack.append(value)
+                # stack.append(a)
+                value_stack.append(a)
+                # value_stack.append(value)
 
             # debugPrint(program)
-            print(f"(Debug [`put`]) Stack: {stack}")
+            # print(f"(Debug [`put`]) Stack: {stack}, Value Stack: {value_stack}")
             if op != whitespace:
                 key += op
         elif program[p] == token[3]:
@@ -99,34 +136,54 @@ def com_prog(program):
             # assert False, "`write` operation is not done yet."
             stack = stack
             value_stack = value_stack
+            # value = value
+            valName = program[p-1]
+            # valGet = value_stack.index(value)
+            # ifValName(program, valName, valGet, value)
+
+            
+           
+           # debugPrint(program)
+            
+            # print(f"(Debug [`write`]) Stack: {stack}, Value Stack: {value_stack}")
+            
+            if program[p-1] == valName:
+                value = stack.pop(-1)
+                if (value == value):
+                    stack.append(value)
+                    valGet = stack.index(value)
+                else:
+                    valGet = value_stack.index(value)
+                # value = value_stack.pop(valGet)
+                # print("Calling valName, reaching here.")
+                a = stack.pop(valGet)
+                # print(f"From Value Stack, valName: {valName}, out: {a}")
+                # print(value_stack[valGet])
+            
             if len(stack) == 0:
-                a = value_stack.pop()
+                a = value_stack.pop(valGet)
+                value_stack.append(a)
             else:
                 a = stack.pop()
-            if program[p] == token[8]:
-                value_stack = value_stack
-                valName = program[p+1]
-                value = program[p-1]
-                value_stack.append(value)
-                    # value_stack = value_stack
-                if program[p-1] == valName:
-                    a = value_stack.pop()
-                    b = value_stack.pop()
-                    c = value_stack.swap()
-                    value_stack.append(c)
-                    print(a)
-                    value_stack.append(value)
-                if op != whitespace:
-                    key += op
-            # debugPrint(program)
-            print(f"(Debug [`write`]) Stack: {stack}, Value Stack: {value_stack}")
-            print(a)
+                stack.append(a)
+ 
+            
+            if program[p-1] == valName:
+                valDet = value_stack[valGet]
+                # a = value_stack.pop(valGet)
+                print(value_stack[valGet - 1])
+                value_stack.append(valDet)
+                # valGet = valGet
+            else:
+                print(a)
+            # print(f"Stack: {stack}")
+            # print(f"Value Stack: {value_stack}")
             if len(stack) == 0:
                 value_stack.append(a)
             else:
                 stack.append(a)
             # debugPrint(program)
-            print(f"(Debug [`write`]) Stack: {stack}, Value Stack: {value_stack}")
+            # print(f"(Debug [`write`]) Stack: {stack}, Value Stack: {value_stack}")
             if op != whitespace:
                 key += op
         elif program[p] == token[1]:
@@ -134,9 +191,10 @@ def com_prog(program):
             a = stack.pop()
             b = stack.pop(-1)
             summ = int(a) + int(b)
+            stack.append(b)
             stack.append(summ)
             # debugPrint(program)
-            print(f"(Debug [`plus`]) Stack: {stack}")
+            # print(f"(Debug [`plus`]) Stack: {stack}")
             if op != whitespace:
                 key += op
         elif program[p] == token[2]:
@@ -146,14 +204,14 @@ def com_prog(program):
             diff = int(b) - int(a)
             stack.append(diff)
             # debugPrint(program)
-            print(f"(Debug [`minus`]) Stack: {stack}")
+            # print(f"(Debug [`minus`]) Stack: {stack}")
             if op != whitespace:
                 key += op
         elif program[p] == token[4]:
             stack = stack
             stack.pop(-1)
             # debugPrint(program)
-            print(f"(Debug [`drop`]) Stack: {stack}")
+            # print(f"(Debug [`drop`]) Stack: {stack}")
             if op != whitespace:
                 key += op
         elif program[p] == token[5]:
@@ -162,10 +220,10 @@ def com_prog(program):
             b = stack.pop()
             stack.append(a)
             # debugPrint(program)
-            print(f"(Debug [`flip`] Stack: {stack})")           
+            # print(f"(Debug [`flip`] Stack: {stack})")           
             stack.append(b)
             # debugPrint(program)
-            print(f"(Debug [`flip`] Stack: {stack})")
+            # print(f"(Debug [`flip`] Stack: {stack})")
             if op != whitespace:
                 key += op
         elif program[p] == token[6]:
@@ -175,7 +233,7 @@ def com_prog(program):
             prod = int(a) * int(b)
             stack.append(prod)
             # debugPrint(program)
-            print(f"(Debug [`multiply`] Stack: {stack})")
+            # print(f"(Debug [`multiply`] Stack: {stack})")
             if op != whitespace:
                 key += op
         elif program[p] == token[7]:
@@ -185,17 +243,47 @@ def com_prog(program):
             quot = int(b) / int(a)
             stack.append(quot)
             # debugProgram(program)
-            print(f"(Debug [`divide`] Stack: {stack})")
+            # print(f"(Debug [`divide`] Stack: {stack})")
             if op != whitespace:
                 key += op
+        # TODO (IMPORTANT): Find way to get the location of the value of a variable in the stack/value stack.
         elif program[p] == token[8]:
             stack = stack
+            # print(f"`as`, Stack: {stack}")
             value_stack = value_stack
-            valName = program[p+1]
+            # print(f"`as`, Value Stack: {value_stack}")
+            valName = program[p+1] 
             value = program[p-1]
+            valGet = stack.index(value)
+            stLen = len(stack)
+            print(f"{stLen} objects in the Stack")
+            vstLen = len(value_stack)
+            print(f"{vstLen} objects in the Value Stack")
+            if valGet != value:
+                valGet = stack.index(value)   
+            
+            for v in range(vstLen - 1):
+                # print(f"valGet Loop, called {valGet}")
+                # valGet = vstLen - valGet
+                valGet = vstLen
+            # print(f"valGet, value: {stack[valGet]}")
+            stack.append(valGet)
+                # valGet += 1
+                
+            # print("valGet iterating loop, reaching here.")
+            valGet = stack.index(value)
+            # valGet += 1
+            # print(f"valGet: called {valGet}, value: {value}")
+            # if program[p+1] == valName:
+            #     valName = valGet
+            # print(f"`as`, Value Stack: {value_stack}")
+            # print(f"Value Stack called {value_stack[valGet]}")
             value_stack.append(value)
+            # print(f"Value Stack called {value_stack[valGet - 1]}")
             stack.pop()
-            print(f"(Debug [`as` valName: {valName}, value: {value}, Stack: {stack}, Value Stack: {value_stack})")
+            # print(f"(Debug [`as` valName: {valName}, value: {value}, Stack: {stack}, Value Stack: {value_stack})")
+            print("------------------------------------------------------------------------------------------------")
+            # ifValName(valName, valGet, value, value)
             # value_stack.append(value)
             # debugPrint(program)
             #valName = program[p]         
@@ -214,7 +302,7 @@ def com_prog(program):
             # if op != whitespace:
             #     key += op
         # TODO: Find way to call local variables.
-        valName = program[p-1]
+        """valName = program[p-1]
         value = program[p-1]
         if program[p] == valName:
             a = value_stack.pop()
@@ -233,12 +321,85 @@ def com_prog(program):
             continue
             if op != whitespace:
                 key += op
-       # print(key)
+        """
+        # print(op)
+        # print(key)
         # nextKeyword(program)
-def sim_prog(program):
+filename = argv[1]
+print(argv)
+if len(argv) < 2:
+    # filename = argv[1]
+    print("ERROR: No filename found, exiting")
+    exit(1)
+file_det = os.path.splitext(filename)
+file_ext = file_det[1]
+def com_prog(program):
+    # assert False, "Compiling programs not done yet."
     # TODO: Find a reason not to delete this definition.
     stack = []
-    for op in program:
+    value_stack = []
+    op_stack = []
+    key = ''
+    whitespace = ' '
+    out_file = file_det[0] + ".cpp"
+    out = open(out_file, "w")
+    out.write("#include <iostream>\n")
+    out.write("using namespace std;\n")
+    out.write("int main() {\n")
+    for p, op in enumerate(program):
+        if op != whitespace:
+            key += op
+        if (p + 1 < len(program)):
+            if program[p+1] == whitespace:
+                print(key)
+                key = ''
+        if program[p] == token[0]:
+            value_stack = value_stack
+            op_stack = op_stack
+            value_stack.append(program[p+1])
+            print("out program reached here,")
+            out.write(f"  int ")
+            print("This is before the `as` keyword loop")
+        elif program[p] == token[8]:
+            value_stack = value_stack
+            valName = program[p+1]
+            op_stack.append(valName)
+            print("printing `as` reaching here.")
+            out.write(f"{program[p+1]} = {program[p-1]};\n")
+            print("Operations reached here.")
+            print(f"OP Stack: {op_stack}")
+            if op != whitespace:
+                key += op        
+            # out.write("  printf(\"Hello World\");\n")
+        elif program[p] == token[1]:
+            # assert False, "the `+` operation is not implemented yet."
+            valName = valName
+            a = op_stack.pop()
+            b = op_stack.pop()
+            out.write(f"  int {program[p+2]} = {a} + {b};\n")
+            op_stack.append(a)
+            op_stack.append(b)
+            '''
+            if program[p] == token[8]:
+                print("`as` keyword to file out, reaching here.")
+                out.write(f"  int {program[p+1]} = {program[p-1]};\n")
+        
+        '''
+        last_op = op_stack[2:]
+        op_stack = op_stack
+        for o, os in enumerate(op_stack):
+            print(op_stack.index(last_op))
+        # o = op_stack.pop(-1)
+        print(f"OP Stack as of the valName call: {op_stack}")
+        print(f"Last OP Call: {op_stack[2:]}")
+        # op_stack.append()
+        if program[p] == op_stack:
+            print("Recognize valname: reaching here.")
+            assert False, "You can screw up the transpiled code."
+            if op != whitespace:
+                key += op
+    out.write("}\n")
+    """for op in program:
         # For generating operations.
         if op[0] == OP_PUSH:
             stack.append(op[1])
@@ -253,7 +414,7 @@ def sim_prog(program):
         elif op[0] == OP_DUMP:
             a = stack.pop()
             print(a)
-        
+    """    
 ''' program = [
     push(5),
     push(6),
@@ -266,15 +427,12 @@ def sim_prog(program):
 ]'''
 # File handling.
 # filename = "test.slug"
-filename = argv[1]
+
 # if len(argv) < 2:
 # TODO: Find way to fix this crappy argument handling.
 if len(argv) > 2:
     assert False, "Invalid subcommand"
     exit(1)
-
-file_det = os.path.splitext(filename)
-file_ext = file_det[1]
 
 # TODO: Come up for better error handling for wrong file extensions.
 
