@@ -1,19 +1,16 @@
-put 5 write
-put 6 write
-put 11 write
-drop drop drop
+put 5 as a write
+put 6 as b write
+put 11 as c write
 
-put 5 
-put 6 
+
+put 5 as d
+put 6 as e
 + write
-drop
 
-put 11
-put 22
+put 11 as f
+put 22 as g
 + write
-drop
-
-put 8
-put 3
+put 8 as h
+put 3 as i
 - write
-drop
+
