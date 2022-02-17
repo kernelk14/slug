@@ -3,7 +3,6 @@
 """ WARNING: Some of this code is stolen from Tsoding's old Porth source code. """
 # Importing Libraries
 import os
-import getopt
 import sys
 argv = sys.argv
 # The OPs. It is important for the Programming Language.
@@ -326,6 +325,14 @@ def sim_prog(program):
         # print(op)
         # print(key)
         # nextKeyword(program)
+filename = argv[1]
+print(argv)
+if len(argv) < 2:
+    # filename = argv[1]
+    print("ERROR: No filename found, exiting")
+    exit(1)
+file_det = os.path.splitext(filename)
+file_ext = file_det[1]
 def com_prog(program):
     # assert False, "Compiling programs not done yet."
     # TODO: Find a reason not to delete this definition.
@@ -370,25 +377,13 @@ def com_prog(program):
             a = op_stack.pop()
             b = op_stack.pop()
             out.write(f"  int {program[p+2]} = {a} + {b};\n")
-            op_stack.append(a)
-            op_stack.append(b)
             '''
             if program[p] == token[8]:
                 print("`as` keyword to file out, reaching here.")
                 out.write(f"  int {program[p+1]} = {program[p-1]};\n")
-        
-        '''
-        last_op = op_stack[2:]
-        op_stack = op_stack
-        for o, os in enumerate(op_stack):
-            print(op_stack.index(last_op))
-        # o = op_stack.pop(-1)
-        print(f"OP Stack as of the valName call: {op_stack}")
-        print(f"Last OP Call: {op_stack[2:]}")
-        # op_stack.append()
-        if program[p] == op_stack:
-            print("Recognize valname: reaching here.")
-            assert False, "You can screw up the transpiled code."
+            '''
+            if program[p] == valName
+                continue
             if op != whitespace:
                 key += op
     out.write("}\n")
@@ -418,104 +413,25 @@ def com_prog(program):
     minus(),
     write()
 ]'''
-
-def usage():
-    print("Slug")
-    print("./main.py [commands] <filename>")
-    print("              -c --compile       Compile program")
-    print("              -i --interpret     Interpret program")
-    print("              -h --help          Display help")
 # File handling.
 # filename = "test.slug"
-# filename = argv[1]
-argList = argv[1:]
-opts = "ci:h"
-# hlp = "h"
-long_opts = ["compile", "interpret", "help"]
-# print(argv)
-try:
-    args, vals = getopt.getopt(argList, opts, long_opts)
-    for currentArgument , currentValue in args:
-        if currentArgument in ("-c", "--compile"):
-            try:
-                filename = argv[2]
-                file_det = os.path.splitext(filename)
-                file_ext = file_det[1]
-                if file_ext != ".slug":
-                    print(filename)
-                    print("ERROR: Wrong filename")
-                    exit(1)
-                with open(filename, "r") as f:
-                    program = f.read().split()
-                program = program
-                com_prog(program)
-                exit(0)
-            except IndexError:
-                print("ERROR: No filename given")
-                exit(1)
-        elif currentArgument in ("-i", "--interpret"):
-            try:
-                filename = argv[2]
-                file_det = os.path.splitext(filename)
-                file_ext = file_det[1]
-                if file_ext != ".slug":
-                    print(filename)
-                    print("ERROR: Wrong filename")
-                    exit(1)
-                with open(filename, "r") as f:
-                    program = f.read().split()
-                program = program
-                sim_prog(program)
-                exit(0)
-            except IndexError:
-                print("ERROR: No filename given")
-                exit(1)
 
-        elif currentArgument in ("-h", "--help"):
-            usage()
-except getopt.error as err:
-    print(str(err))
-usage()
-"""
-if len(argv) < 2:
-    options = argv[1]
-    filename = argv[2]
-    print("ERROR: No filename found, exiting")
-    exit(1)
-    file_det = os.path.splitext(filename)
-    file_ext = file_det[1]
-    if file_ext != ".slug":
-        print(filename)
-        print("ERROR: Wrong filename")
-        exit(1)
-
-    with open(filename, "r") as f:
-        program = f.read().split()
-    if options == "-c":
-        program = program
-        com_prog(program)
-    elif options == "-i":
-        program = program
-        sim_prog(program)
-    elif options == filename:
-        program = program
-        sim_prog(program)
-    elif options == NULL:
-        print("ERROR: No flags or filename given\n")
-        exit(1)
-    else:
-        print("Invalid Subcommand.\n")
-        exit(1)
-"""
 # if len(argv) < 2:
 # TODO: Find way to fix this crappy argument handling.
-# if len(argv) > 2:
-    # assert False, "Invalid subcommand"
-    # exit(1)
+if len(argv) > 2:
+    assert False, "Invalid subcommand"
+    exit(1)
 
 # TODO: Come up for better error handling for wrong file extensions.
 
+if file_ext != ".slug":
+    print(filename)
+    print("ERROR: Wrong filename")
+    exit(1)
 
 # filename = filename
+with open(filename, "r") as f:
+    program = f.read().split()
+com_prog(program)
 
 

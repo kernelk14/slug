@@ -6,9 +6,21 @@ A Hobby Programming Language Made In Python.
 This is inspired in [Tsoding's Porth](https://gitlab.com/tsoding/porth) Programming Language.
 
 ## Quick Start
+To display help:
 ```console
-$ ./main.main.py
+$ ./main.py -h
 ```
+
+To compile program(WARNING: compiling code is not done yet, so please do not use it until I make it work properly):
+```console
+$ ./main.py -c <filename>
+```
+
+To interpret program:
+```console
+$ ./main.py -i <filename>
+```
+
 ## Language Basics
 To put a number into a stack and print it you do:
 ```
