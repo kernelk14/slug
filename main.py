@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+
+# Copyright 2022, Khyle Isaias (kernelk14) <khyleisaias@gmail.com>
+""" This project is in the MIT License. See `LICENSE` for details."""
+
 """ This is the source code for the Slug Programming Language """
 """ WARNING: Some of this code is stolen from Tsoding's old Porth source code. """
 # Importing Libraries
@@ -369,6 +373,12 @@ def com_prog(program):
             valName = valName
             a = op_stack.pop()
             b = op_stack.pop()
+            if program[p+2] == token[0]:
+                print("ERROR: Defining operations as a variable.")
+                out.write("}\n")
+                exit(1)
+                # pass
+                # assert False, "Defining operations as a variable."
             out.write(f"  int {program[p+2]} = {a} + {b};\n")
             op_stack.append(a)
             op_stack.append(b)
@@ -378,10 +388,34 @@ def com_prog(program):
                 out.write(f"  int {program[p+1]} = {program[p-1]};\n")
         
         '''
+        elif program[p] == token[2]:
+            valName = valName
+            a = op_stack.pop()
+            b = op_stack.pop()
+            out.write(f"  int {program[p+2]} = {a} - {b};\n")
+            op_stack.append(a)
+            op_stack.append(b)
+
+        elif program[p] == token[3]:
+            if program[p-1] == token[1]:
+                a = value_stack.pop()
+                b = value_stack.pop()
+                res = int(a) + int(b)
+                out.write(f"  cout << {res} << endl;\n")
+            elif program[p-1] == token[2]:
+                a = value_stack.pop()
+                b = value_stack.pop()
+                res = int(a) - int(b)
+                out.write(f"  cout << {res} << endl;\n")
+            else:
+                out.write(f"  cout << {program[p-1]} << endl;\n")
+            if op != whitespace:
+                key += op
+    
         last_op = op_stack[2:]
         op_stack = op_stack
-        for o, os in enumerate(op_stack):
-            print(op_stack.index(last_op))
+        # for o, os in enumerate(op_stack):
+        #     print(op_stack.index(last_op))
         # o = op_stack.pop(-1)
         print(f"OP Stack as of the valName call: {op_stack}")
         print(f"Last OP Call: {op_stack[2:]}")
@@ -392,6 +426,7 @@ def com_prog(program):
             if op != whitespace:
                 key += op
     out.write("}\n")
+    os.system(f"g++ {out_file} && ./a.out")
     """for op in program:
         # For generating operations.
         if op[0] == OP_PUSH:
@@ -420,8 +455,8 @@ def com_prog(program):
 ]'''
 
 def usage():
-    print("Slug")
-    print("./main.py [commands] <filename>")
+    # print("Slug")
+    print("./main.py [args] <filename>")
     print("              -c --compile       Compile program")
     print("              -i --interpret     Interpret program")
     print("              -h --help          Display help")
@@ -434,6 +469,10 @@ opts = "ci:h"
 long_opts = ["compile", "interpret", "help"]
 # print(argv)
 try:
+    if len(sys.argv) < 2:
+        print("ERROR: No arguments given\n")
+        usage()
+        exit(1)
     args, vals = getopt.getopt(argList, opts, long_opts)
     for currentArgument , currentValue in args:
         if currentArgument in ("-c", "--compile"):
@@ -450,7 +489,8 @@ try:
                 program = program
                 com_prog(program)
                 exit(0)
-            except IndexError:
+            except IndexError as e:
+                print(e)
                 print("ERROR: No filename given")
                 exit(1)
         elif currentArgument in ("-i", "--interpret"):
@@ -473,6 +513,7 @@ try:
 
         elif currentArgument in ("-h", "--help"):
             usage()
+            exit(0)
 except getopt.error as err:
     print(str(err))
 usage()
