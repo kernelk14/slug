@@ -4,3 +4,7 @@ times.slug
 vals.slug
 slug
 slug.cpp
+*.cpp
+*.slug
+a.out
+*.txt
