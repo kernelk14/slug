@@ -5,6 +5,7 @@
 
 """ This is the source code for the Slug Programming Language """
 """ WARNING: Some of this code is stolen from Tsoding's old Porth source code. """
+
 # Importing Libraries
 import os
 import getopt
@@ -331,7 +332,7 @@ def sim_prog(program):
         # print(key)
         # nextKeyword(program)
 def com_prog(program):
-    # assert False, "Compiling programs not done yet."
+    assert False, "Compiling programs not done yet."
     # TODO: Find a reason not to delete this definition.
     stack = []
     value_stack = []

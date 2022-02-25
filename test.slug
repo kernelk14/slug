@@ -1,6 +1,6 @@
-put 5 as a write
-put 6 as b write
-put 11 as c write
+put 5 as a
+put 6 as b
+put 11 as c
 
 
 put 5 as d
