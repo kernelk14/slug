@@ -335,6 +335,7 @@ def sim_prog(program):
 def com_prog(program):
     assert False, "Compiling programs not done yet."
     # TODO: Find a reason not to delete this definition.
+    # TODO: Find new language for compiling.
     stack = []
     value_stack = []
     op_stack = []
