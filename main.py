@@ -333,7 +333,7 @@ def sim_prog(program):
         # print(key)
         # nextKeyword(program)
 def com_prog(program):
-    assert False, "Compiling programs not done yet."
+    # assert False, "Compiling programs not done yet."
     # TODO: Find a reason not to delete this definition.
     # TODO: Find new language for compiling.
     stack = []
@@ -341,11 +341,11 @@ def com_prog(program):
     op_stack = []
     key = ''
     whitespace = ' '
-    out_file = file_det[0] + ".cpp"
+    out_file = file_det[0] + ".rs"
     out = open(out_file, "w")
-    out.write("#include <iostream>\n")
-    out.write("using namespace std;\n")
-    out.write("int main() {\n")
+    out.write("use std::io;\n")
+    # out.write("using namespace std;\n")
+    out.write("fn main() {\n")
     for p, op in enumerate(program):
         if op != whitespace:
             key += op
@@ -358,7 +358,7 @@ def com_prog(program):
             op_stack = op_stack
             value_stack.append(program[p+1])
             print("out program reached here,")
-            out.write(f"  int ")
+            out.write(f"  let ")
             print("This is before the `as` keyword loop")
         elif program[p] == token[8]:
             value_stack = value_stack
@@ -382,7 +382,7 @@ def com_prog(program):
                 exit(1)
                 # pass
                 # assert False, "Defining operations as a variable."
-            out.write(f"  int {program[p+2]} = {a} + {b};\n")
+            out.write(f"  let {program[p+2]} = {a} + {b};\n")
             op_stack.append(a)
             op_stack.append(b)
             '''
@@ -400,18 +400,24 @@ def com_prog(program):
             op_stack.append(b)
 
         elif program[p] == token[3]:
+            valName = program[p-1]
             if program[p-1] == token[1]:
                 a = value_stack.pop()
                 b = value_stack.pop()
                 res = int(a) + int(b)
-                out.write(f"  cout << {res} << endl;\n")
+                out.write(f"  println!(\"{res}\");\n")
             elif program[p-1] == token[2]:
                 a = value_stack.pop()
                 b = value_stack.pop()
                 res = int(a) - int(b)
-                out.write(f"  cout << {res} << endl;\n")
+                out.write(f"  println!(\"{res}\");\n")
+            elif program[p-1] != program in token:
+                out.write(f"  println!(\"")
+                out.write("{}\",")
+                out.write(f" {program[p-1]})")
             else:
-                out.write(f"  cout << {program[p-1]} << endl;\n")
+                out.write("  println!(\"{}\"")
+                out.write(f", {program[p-1]});\n")
             if op != whitespace:
                 key += op
     
@@ -429,7 +435,7 @@ def com_prog(program):
             if op != whitespace:
                 key += op
     out.write("}\n")
-    os.system(f"g++ {out_file} && ./a.out")
+    
     """for op in program:
         # For generating operations.
         if op[0] == OP_PUSH:
@@ -483,6 +489,7 @@ try:
                 filename = argv[2]
                 file_det = os.path.splitext(filename)
                 file_ext = file_det[1]
+                out_file = file_det[0] + ".rs"
                 if file_ext != ".slug":
                     print(filename)
                     print("ERROR: Wrong filename")
@@ -491,6 +498,7 @@ try:
                     program = f.read().split()
                 program = program
                 com_prog(program)
+                os.system(f"rustc {out_file}")
                 exit(0)
             except IndexError as e:
                 print(e)
