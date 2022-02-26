@@ -6,5 +6,9 @@ number
 number1
 + as number3
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f95e13c67f368825ae4dddbe02f905b4c9f36f01
 put 11 as ano
 put 12 as ann
