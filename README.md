@@ -9,6 +9,8 @@ A Hobby Programming Language Made In Python.
 This is inspired in [Tsoding's Porth](https://gitlab.com/tsoding/porth) Programming Language.
 
 ## Quick Start
+Make sure you have `rust` installed in your system as slug code translates into rust code.
+
 To display help:
 ```console
 $ ./main.py -h 
@@ -72,3 +74,6 @@ flip write flip write
 ```
 ## WARNING!!!
 ### This is still in development, do this in your own risk.
+
+## Contributing
+For contributions, visit [CONTRIBUTING.md](./CONTRIBUTING.md) for more info.

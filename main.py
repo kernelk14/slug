@@ -365,7 +365,13 @@ def com_prog(program):
             valName = program[p+1]
             op_stack.append(valName)
             print("printing `as` reaching here.")
-            out.write(f"{program[p+1]} = {program[p-1]};\n")
+            if program[p-1] == token[1]:
+                print("ERROR: Using operator as a value of a variable.")
+                # pass
+                # com_prog(program)
+                # out.write("}\n")
+            else:
+                out.write(f"{program[p+1]} = {program[p-1]};\n")
             print("Operations reached here.")
             print(f"OP Stack: {op_stack}")
             if op != whitespace:
@@ -373,10 +379,27 @@ def com_prog(program):
             # out.write("  printf(\"Hello World\");\n")
         elif program[p] == token[1]:
             # assert False, "the `+` operation is not implemented yet."
-            valName = valName
+            # if program[p] == token[8]:
+            #     valName = program[p+1]
             a = op_stack.pop()
             b = op_stack.pop()
             if program[p+2] == token[0]:
+                print("ERROR: Defining operations as a variable.")
+                out.write("}\n")
+                exit(1)
+            elif program[p+2] == token[1]:
+                print("ERROR: Defining operations as a variable.")
+                out.write("}\n")
+                exit(1)
+            elif program[p+2] == token[2]:
+                print("ERROR: Defining operations as a variable.")
+                out.write("}\n")
+                exit(1)
+            elif program[p+2] == token[3]:
+                print("ERROR: Defining operations as a variable.")
+                out.write("}\n")
+                exit(1)
+            elif program[p+2] == token[4]:
                 print("ERROR: Defining operations as a variable.")
                 out.write("}\n")
                 exit(1)
@@ -392,10 +415,13 @@ def com_prog(program):
         
         '''
         elif program[p] == token[2]:
-            valName = valName
+            if program[p] == token[8]:
+                valName = program[p-1]
+            else:
+                valName = valName
             a = op_stack.pop()
             b = op_stack.pop()
-            out.write(f"  int {program[p+2]} = {a} - {b};\n")
+            out.write(f"  let {program[p+2]} = {a} - {b};\n")
             op_stack.append(a)
             op_stack.append(b)
 
