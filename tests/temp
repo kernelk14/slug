@@ -1,0 +1,15 @@
+token = [
+    "put",
+    "+",
+    "-",
+    "write",
+    "drop",
+    "flip",
+    "*",
+    "/",
+    "as",
+    ";"
+    ]
+comment = "#"
+ending = token[9]
+
