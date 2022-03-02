@@ -1,7 +1,0 @@
-put 10 as a
-put 20 as b
-put 30 as c
-
-a write
-b write
-c write
