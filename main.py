@@ -11,6 +11,7 @@
 import os
 import getopt
 import sys
+import re
 argv = sys.argv
 # The OPs. It is important for the Programming Language.
 OP_PUSH = 0
@@ -336,6 +337,7 @@ def com_prog(program):
     # assert False, "Compiling programs not done yet."
     # TODO: Find a reason not to delete this definition.
     # TODO: Find new language for compiling.
+    # I've changed the transpiled language from C++ to Rust.
     stack = []
     value_stack = []
     op_stack = []
