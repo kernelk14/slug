@@ -52,6 +52,7 @@ def write():
 
 # For running the program.
 def sim_prog(program): 
+    assert False, "Interpretation of programs are currently work in progress, please use the `-c` flag for now."
     stack = []
     value_stack = []
     whitespace = ' '
@@ -310,6 +311,7 @@ def com_prog(program):
     whitespace = ' '
     out_file = file_det[0] + ".rs"
     out = open(out_file, "w")
+    out.write("#[allow(unused_variables, unused_assignments, unused_imports)]\n")
     out.write("use std::io;\n")
     out.write("fn main() {\n")
     for p, op in enumerate(program):
@@ -323,23 +325,23 @@ def com_prog(program):
             value_stack = value_stack
             op_stack = op_stack
             value_stack.append(program[p+1])
-            print("out program reached here,")
+            # print("out program reached here,")
             out.write(f"  let ")
-            print("This is before the `as` keyword loop")
+            # print("This is before the `as` keyword loop")
         elif program[p] == token[8]:
             value_stack = value_stack
             valName = program[p+1]
             op_stack.append(valName)
-            print("printing `as` reaching here.")
+            # print("printing `as` reaching here.")
             if program[p-1] == token[1]:
-                print("ERROR: Using operator as a value of a variable.")
-                # pass
+                # print("ERROR: Using operator as a value of a variable.")
+                pass
                 # com_prog(program)
                 # out.write("}\n")
             else:
                 out.write(f"{program[p+1]} = {program[p-1]};\n")
-            print("Operations reached here.")
-            print(f"OP Stack: {op_stack}")
+            # print("Operations reached here.")
+            # print(f"OP Stack: {op_stack}")
             if op != whitespace:
                 key += op        
             
@@ -404,10 +406,10 @@ def com_prog(program):
     
         last_op = op_stack[2:]
         op_stack = op_stack
-        print(f"OP Stack as of the valName call: {op_stack}")
-        print(f"Last OP Call: {op_stack[2:]}")
+        # print(f"OP Stack as of the valName call: {op_stack}")
+        # print(f"Last OP Call: {op_stack[2:]}")
         if program[p] == op_stack:
-            print("Recognize valname: reaching here.")
+            # print("Recognize valname: reaching here.")
             assert False, "You can screw up the transpiled code."
             if op != whitespace:
                 key += op
@@ -443,6 +445,7 @@ try:
                 program = program
                 com_prog(program)
                 os.system(f"rustc {out_file}")
+                os.system(f"./{file_det[0]}")
                 exit(0)
             except IndexError as e:
                 print(e)
