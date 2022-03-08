@@ -82,10 +82,7 @@ def sim_prog(program):
             elif program[p] == comment:
                 print(f"(Debug [`comment`] Stack: {stack})")
     def ifValName(program, valName, valGet, value):
-        # assert False, "`ifValName` is still broken."
         value = value
-        # value_stack = value_stack
-        # valGet = value_stack.index(value)
         print(f"(Debug [`callVar`]) valName: {valName}, Before value: {value}, After value: {valGet}, reaching here.")
         key = ''
         if program[p] == token[8]:
@@ -95,19 +92,13 @@ def sim_prog(program):
             value = program[p-1]
             valGet = value_stack.index(value) - 1
             value_stack.append(value)
-                # value_stack = value_stack
             if program[p-1] == valName:
                 valName = valGet
                 value_stack.append(valName)
                 print(f"(Debug [`callVar`, valName: {valName}, value: {value}] Stack: {stack})")
-                # b = value_stack.pop()
-                # c = value_stack.swap()
-                # value_stack.append(a)
                 a = value_stack.pop()
                 print(a)
                 value_stack.append(value)
-                # if op != whitespace:
-                #     key += op
         if op != whitespace:
             key += op
     for p, op in enumerate(program):
@@ -307,35 +298,9 @@ def sim_prog(program):
                 # value_stack.swap()
                 if op != whitespace:
                     key += op
-            # if op != whitespace:
-            #     key += op
-        # TODO: Find way to call local variables.
-        """valName = program[p-1]
-        value = program[p-1]
-        if program[p] == valName:
-            a = value_stack.pop()
-            if len(value_stack) < 2:
-                value_stack.append(a)
-            else:
-                b = value_stack.pop()
-            value_stack.append(b)
-            value_stack.append(a)
-            if op != whitespace:
-                key += op
-        # Parsing Comment
-        elif program[p] == comment:
-            # TODO: Find a way to pass comments properly.
-            # print(f"(Debug [`comment`] Stack: {stack})")
-            continue
-            if op != whitespace:
-                key += op
-        """
-        # print(op)
-        # print(key)
-        # nextKeyword(program)
+        
 def com_prog(program):
     # assert False, "Compiling programs not done yet."
-    # TODO: Find a reason not to delete this definition.
     # TODO: Find new language for compiling.
     # I've changed the transpiled language from C++ to Rust.
     stack = []
@@ -346,7 +311,6 @@ def com_prog(program):
     out_file = file_det[0] + ".rs"
     out = open(out_file, "w")
     out.write("use std::io;\n")
-    # out.write("using namespace std;\n")
     out.write("fn main() {\n")
     for p, op in enumerate(program):
         if op != whitespace:
@@ -378,11 +342,8 @@ def com_prog(program):
             print(f"OP Stack: {op_stack}")
             if op != whitespace:
                 key += op        
-            # out.write("  printf(\"Hello World\");\n")
+            
         elif program[p] == token[1]:
-            # assert False, "the `+` operation is not implemented yet."
-            # if program[p] == token[8]:
-            #     valName = program[p+1]
             a = op_stack.pop()
             b = op_stack.pop()
             if program[p+2] == token[0]:
@@ -405,17 +366,9 @@ def com_prog(program):
                 print("ERROR: Defining operations as a variable.")
                 out.write("}\n")
                 exit(1)
-                # pass
-                # assert False, "Defining operations as a variable."
             out.write(f"  let {program[p+2]} = {a} + {b};\n")
             op_stack.append(a)
             op_stack.append(b)
-            '''
-            if program[p] == token[8]:
-                print("`as` keyword to file out, reaching here.")
-                out.write(f"  int {program[p+1]} = {program[p-1]};\n")
-        
-        '''
         elif program[p] == token[2]:
             if program[p] == token[8]:
                 valName = program[p-1]
@@ -451,60 +404,23 @@ def com_prog(program):
     
         last_op = op_stack[2:]
         op_stack = op_stack
-        # for o, os in enumerate(op_stack):
-        #     print(op_stack.index(last_op))
-        # o = op_stack.pop(-1)
         print(f"OP Stack as of the valName call: {op_stack}")
         print(f"Last OP Call: {op_stack[2:]}")
-        # op_stack.append()
         if program[p] == op_stack:
             print("Recognize valname: reaching here.")
             assert False, "You can screw up the transpiled code."
             if op != whitespace:
                 key += op
     out.write("}\n")
-    
-    """for op in program:
-        # For generating operations.
-        if op[0] == OP_PUSH:
-            stack.append(op[1])
-        elif op[0] == OP_PLUS:
-            a = stack.pop()
-            b = stack.pop()
-            stack.append(a + b)    
-        elif op[0] == OP_MINUS:
-            a = stack.pop(-1)
-            b = stack.pop(1)
-            stack.append(b - a)
-        elif op[0] == OP_DUMP:
-            a = stack.pop()
-            print(a)
-    """    
-''' program = [
-    push(5),
-    push(6),
-    plus(),
-    write(),
-    push(5),
-    push(3),
-    minus(),
-    write()
-]'''
-
 def usage():
     # print("Slug")
     print("./main.py [args] <filename>")
     print("              -c --compile       Compile program")
     print("              -i --interpret     Interpret program")
     print("              -h --help          Display help")
-# File handling.
-# filename = "test.slug"
-# filename = argv[1]
 argList = argv[1:]
 opts = "ci:h"
-# hlp = "h"
 long_opts = ["compile", "interpret", "help"]
-# print(argv)
 try:
     if len(sys.argv) < 2:
         print("ERROR: No arguments given\n")
@@ -556,46 +472,3 @@ try:
 except getopt.error as err:
     print(str(err))
 usage()
-"""
-if len(argv) < 2:
-    options = argv[1]
-    filename = argv[2]
-    print("ERROR: No filename found, exiting")
-    exit(1)
-    file_det = os.path.splitext(filename)
-    file_ext = file_det[1]
-    if file_ext != ".slug":
-        print(filename)
-        print("ERROR: Wrong filename")
-        exit(1)
-
-    with open(filename, "r") as f:
-        program = f.read().split()
-    if options == "-c":
-        program = program
-        com_prog(program)
-    elif options == "-i":
-        program = program
-        sim_prog(program)
-    elif options == filename:
-        program = program
-        sim_prog(program)
-    elif options == NULL:
-        print("ERROR: No flags or filename given\n")
-        exit(1)
-    else:
-        print("Invalid Subcommand.\n")
-        exit(1)
-"""
-# if len(argv) < 2:
-# TODO: Find way to fix this crappy argument handling.
-# if len(argv) > 2:
-    # assert False, "Invalid subcommand"
-    # exit(1)
-
-# TODO: Come up for better error handling for wrong file extensions.
-
-
-# filename = filename
-
-
