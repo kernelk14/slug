@@ -1,3 +1,5 @@
 #!/bin/sh
 
-cp slug.py slug && sudo mv slug /usr/bin/
+cp main.py ./exec/slug.py && \
+cp ./exec/slug.py ./exec/slug && \
+sudo mv ./exec/slug /usr/bin/
