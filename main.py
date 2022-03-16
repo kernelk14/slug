@@ -89,6 +89,14 @@ def com_prog(program):
                 pass
                 # com_prog(program)
                 # out.write("}\n")
+            # TODO: Find ways to parse string literals.
+            if program[p] == '"':
+                strval = program[p+1]
+                if program[p+1] != '"':
+                    continue
+                else:
+                    stack.append(program[p+1].join(' '))
+                    strpush = stack.pop()
             else:
                 out.write(f"{program[p+1]} = {program[p-1]};\n")
             # print("Operations reached here.")
@@ -147,8 +155,11 @@ def com_prog(program):
                 out.write(f"  println!(\"{res}\");\n")
             elif program[p-1] != program in token:
                 out.write(f"  println!(\"")
-                out.write("{}\",")
+                out.write("{}\n\",")
                 out.write(f" {program[p-1]})")
+            elif program[p-1] == '"':
+                out.write("  println!(\"")
+                out.write(f"{program[p-1]});")
             else:
                 out.write("  println!(\"{}\"")
                 out.write(f", {program[p-1]});\n")
@@ -172,7 +183,7 @@ def usage():
     print("              -i --interpret     Interpret program")
     print("              -h --help          Display help")
 argList = argv[1:]
-opts = "ci:h"
+opts = "ci:hd"
 long_opts = ["compile", "interpret", "help"]
 try:
     if len(sys.argv) < 2:
@@ -197,7 +208,6 @@ try:
                 com_prog(program)
                 os.system(f"rustc {out_file}")
                 os.system(f"./{file_det[0]}")
-                os.system(f"rm {out_file}")
                 exit(0)
             except IndexError as e:
                 print(e)

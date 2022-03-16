@@ -5,4 +5,7 @@ fn main() {
   let y = 6;
   let z = y + x;
   println!("{}", z);
+  println!("{}", x);
+  println!("{}", y);
+  println!("{}", z);
 }
