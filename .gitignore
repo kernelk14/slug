@@ -9,3 +9,4 @@ slug.cpp
 a.out
 *.txt
 Makefile
+.py~
