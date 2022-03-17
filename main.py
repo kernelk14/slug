@@ -90,13 +90,6 @@ def com_prog(program):
                 # com_prog(program)
                 # out.write("}\n")
             # TODO: Find ways to parse string literals.
-            if program[p] == '"':
-                strval = program[p+1]
-                if program[p+1] != '"':
-                    continue
-                else:
-                    stack.append(program[p+1].join(' '))
-                    strpush = stack.pop()
             else:
                 out.write(f"{program[p+1]} = {program[p-1]};\n")
             # print("Operations reached here.")
@@ -180,11 +173,24 @@ def usage():
     # print("Slug")
     print("./main.py [args] <filename>")
     print("              -c --compile       Compile program")
-    print("              -i --interpret     Interpret program")
     print("              -h --help          Display help")
+def com_proc(filename, file_det, file_ext, out_file):
+    if file_ext != ".slug":
+        print(filename)
+        print("ERROR: Wrong filename")
+        exit(1)
+    with open(filename, "r") as f:
+        program = f.read().split()
+    program = program
+    com_prog(program)
+    compile(out_file, file_det)
+    exit(0)
+def compile(out_file, file_det):
+    os.system(f"rustc {out_file}")
+    os.system(f"./{file_det[0]}")
 argList = argv[1:]
 opts = "ci:hd"
-long_opts = ["compile", "interpret", "help"]
+long_opts = ["compile", "interpret", "help", "delete"]
 try:
     if len(sys.argv) < 2:
         print("ERROR: No arguments given\n")
@@ -198,26 +204,17 @@ try:
                 file_det = os.path.splitext(filename)
                 file_ext = file_det[1]
                 out_file = file_det[0] + ".rs"
-                if file_ext != ".slug":
-                    print(filename)
-                    print("ERROR: Wrong filename")
-                    exit(1)
-                with open(filename, "r") as f:
-                    program = f.read().split()
-                program = program
-                com_prog(program)
-                os.system(f"rustc {out_file}")
-                os.system(f"./{file_det[0]}")
-                exit(0)
+                com_proc(filename, file_det, file_ext, out_file)
             except IndexError as e:
-                print(e)
-                print("ERROR: No filename given")
-                exit(1)
+                 print(e)
+                 print("ERROR: No filename given")
+                 exit(1)
         elif currentArgument in ("-i", "--interpret"):
             try:
                 filename = argv[2]
                 file_det = os.path.splitext(filename)
                 file_ext = file_det[1]
+                print("Oh no, I already removed the interpretation mode.\nPlease use the compilation mode instead with the `-c` or `--compile` flag.")
                 if file_ext != ".slug":
                     print(filename)
                     print("ERROR: Wrong filename")
@@ -232,7 +229,7 @@ try:
             except IndexError:
                 print("ERROR: No filename given")
                 exit(1)
-
+        # elif currentArgument in ("-d", "--delete")
         elif currentArgument in ("-h", "--help"):
             usage()
             exit(0)

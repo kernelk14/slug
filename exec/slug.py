@@ -90,13 +90,6 @@ def com_prog(program):
                 # com_prog(program)
                 # out.write("}\n")
             # TODO: Find ways to parse string literals.
-            if program[p] == '"':
-                strval = program[p+1]
-                if program[p+1] != '"':
-                    continue
-                else:
-                    stack.append(program[p+1].join(' '))
-                    strpush = stack.pop()
             else:
                 out.write(f"{program[p+1]} = {program[p-1]};\n")
             # print("Operations reached here.")
@@ -180,7 +173,6 @@ def usage():
     # print("Slug")
     print("./main.py [args] <filename>")
     print("              -c --compile       Compile program")
-    print("              -i --interpret     Interpret program")
     print("              -h --help          Display help")
 argList = argv[1:]
 opts = "ci:hd"
@@ -218,6 +210,7 @@ try:
                 filename = argv[2]
                 file_det = os.path.splitext(filename)
                 file_ext = file_det[1]
+                print("Oh no, I already removed the interpretation mode.\nPlease use the compilation mode instead with the `-c` or `--compile` flag.")
                 if file_ext != ".slug":
                     print(filename)
                     print("ERROR: Wrong filename")
