@@ -89,6 +89,14 @@ def com_prog(program):
                 pass
                 # com_prog(program)
                 # out.write("}\n")
+            # TODO: Find ways to parse string literals.
+            if program[p] == '"':
+                strval = program[p+1]
+                if program[p+1] != '"':
+                    continue
+                else:
+                    stack.append(program[p+1].join(' '))
+                    strpush = stack.pop()
             else:
                 out.write(f"{program[p+1]} = {program[p-1]};\n")
             # print("Operations reached here.")
