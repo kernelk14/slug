@@ -10,3 +10,4 @@ a.out
 *.txt
 Makefile
 .py~
+.sh~

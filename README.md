@@ -11,19 +11,24 @@ This is inspired in [Tsoding's Porth](https://gitlab.com/tsoding/porth) Programm
 ## Quick Start
 Make sure you have `rust` installed in your system as slug code translates into rust code.
 
+First, you need to execute the [build.sh](./build.sh) script to have a `slug` executable in your system.
+```console
+$ ./build.sh && slug
+```
+
 To display help:
 ```console
-$ ./main.py -h 
+$ slug -h 
 ```
 
-To compile program(WARNING: compiling code is not done yet, so please do not use it until I make it work properly):
+To compile program(WARNING: compiling code is not done yet, but you can use it now.):
 ```console
-$ ./main.py -c <filename>
+$ slug -c <filename>
 ```
 
-To interpret program:
+To interpret program(I removed the interpretation mode permanently but I will still put the instructions here.):
 ```console
-$ ./main.py -i <filename>
+$ slug -i <filename>
 ```
 
 ## Language Basics
