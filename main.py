@@ -12,6 +12,8 @@ import os
 import getopt
 import sys
 import re
+
+# Command Line Arguments.
 argv = sys.argv
 # The OPs. It is important for the Programming Language.
 OP_PUSH = 0
