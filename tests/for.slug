@@ -1,0 +1,6 @@
+put 5 as x
+for 5 .. 10 do 
+x write
+10 write
+11 write 
+end
