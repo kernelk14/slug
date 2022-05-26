@@ -69,6 +69,16 @@ a write
 b write
 c write
 ```
+
+For-loop:
+```
+put 1 as i
+for i .. 10 do
+  10 write
+  20 write
+  30 write
+end
+```
 # WARNING!!!
 ### This is still in development, do this in your own risk.
 

@@ -35,7 +35,10 @@ token = [
     "/",      # token[7]
     "as",     # token[8]
     ";",      # token[9]
-    "for"     # token[10]
+    "for",    # token[10]
+    "..",     # token[11]
+    "do",     # token[12]
+    "end"     # token[13]
     ]
 comment = "#"
 ending = token[9]
@@ -161,7 +164,15 @@ def com_prog(program):
                 out.write(f", {program[p-1]});\n")
             if op != whitespace:
                 key += op
-
+        elif program[p] == token[10]:
+            out.write(f"  for ({program[p+1]}")
+        elif program[p] == token[11]:
+            out.write(f"..{program[p+1]} ")
+            out.write(")")
+        elif program[p] == token[12]:
+            out.write("{\n  ")
+        elif program[p] == token[13]:
+            out.write("\n  }\n")
     # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
         op_stack = op_stack
