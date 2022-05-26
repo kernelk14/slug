@@ -21,14 +21,9 @@ To display help:
 $ slug -h 
 ```
 
-To compile program(WARNING: compiling code is not done yet, but you can use it now.):
+To compile program(WARNING: compilation is still work in progress, but you can use it now.):
 ```console
 $ slug -c <filename>
-```
-
-To interpret program(I removed the interpretation mode permanently but I will still put the instructions here.):
-```console
-$ slug -i <filename>
 ```
 
 ## Language Basics
@@ -36,12 +31,6 @@ To put a number into a stack and print it you do:
 ```
 put 20 write
 ```
-
-To drop a number into the stack you do:
-```
-put 20 write drop
-```
-REMEMBER: if you dropped a number out of the stack, you cannot use the number again(unless you put it again.)
 
 To add numbers and print it you do:
 ```
@@ -71,13 +60,16 @@ put 20
 / write
 ```
 
-To put 2 numbers into the stack and flip it you do:
+Variable assigning:
 ```
-put 10 write
-put 20 write
-flip write flip write
+put 5 as a
+put 6 as b
++ as c
+a write
+b write
+c write
 ```
-## WARNING!!!
+# WARNING!!!
 ### This is still in development, do this in your own risk.
 
 ## Contributing
