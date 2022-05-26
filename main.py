@@ -21,20 +21,21 @@ OP_PLUS = 1
 OP_MINUS = 2
 OP_DUMP = 3
 OP_DROP = 4
-COUNT_OPS = 10
+COUNT_OPS = 11
 
 
 token = [
-    "put",
-    "+",
-    "-",
-    "write",
-    "drop",
-    "flip",
-    "*",
-    "/",
-    "as",
-    ";"
+    "put",    # token[0]
+    "+",      # token[1]
+    "-",      # token[2]
+    "write",  # token[3]
+    "drop",   # token[4]
+    "flip",   # token[5]
+    "*",      # token[6]
+    "/",      # token[7]
+    "as",     # token[8]
+    ";",      # token[9]
+    "for"     # token[10]
     ]
 comment = "#"
 ending = token[9]
@@ -160,7 +161,8 @@ def com_prog(program):
                 out.write(f", {program[p-1]});\n")
             if op != whitespace:
                 key += op
-    
+
+    # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
         op_stack = op_stack
         # print(f"OP Stack as of the valName call: {op_stack}")
