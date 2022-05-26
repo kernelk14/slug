@@ -12,6 +12,8 @@ import os
 import getopt
 import sys
 import re
+
+# Command Line Arguments.
 argv = sys.argv
 # The OPs. It is important for the Programming Language.
 OP_PUSH = 0
@@ -19,20 +21,21 @@ OP_PLUS = 1
 OP_MINUS = 2
 OP_DUMP = 3
 OP_DROP = 4
-COUNT_OPS = 10
+COUNT_OPS = 11
 
 
 token = [
-    "put",
-    "+",
-    "-",
-    "write",
-    "drop",
-    "flip",
-    "*",
-    "/",
-    "as",
-    ";"
+    "put",    # token[0]
+    "+",      # token[1]
+    "-",      # token[2]
+    "write",  # token[3]
+    "drop",   # token[4]
+    "flip",   # token[5]
+    "*",      # token[6]
+    "/",      # token[7]
+    "as",     # token[8]
+    ";",      # token[9]
+    "for"     # token[10]
     ]
 comment = "#"
 ending = token[9]
@@ -158,7 +161,8 @@ def com_prog(program):
                 out.write(f", {program[p-1]});\n")
             if op != whitespace:
                 key += op
-    
+
+    # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
         op_stack = op_stack
         # print(f"OP Stack as of the valName call: {op_stack}")
@@ -174,9 +178,23 @@ def usage():
     print("./main.py [args] <filename>")
     print("              -c --compile       Compile program")
     print("              -h --help          Display help")
+def com_proc(filename, file_det, file_ext, out_file):
+    if file_ext != ".slug":
+        print(filename)
+        print("ERROR: Wrong filename")
+        exit(1)
+    with open(filename, "r") as f:
+        program = f.read().split()
+    program = program
+    com_prog(program)
+    compile(out_file, file_det)
+    exit(0)
+def compile(out_file, file_det):
+    os.system(f"rustc {out_file}")
+    os.system(f"./{file_det[0]}")
 argList = argv[1:]
 opts = "ci:hd"
-long_opts = ["compile", "interpret", "help"]
+long_opts = ["compile", "interpret", "help", "delete"]
 try:
     if len(sys.argv) < 2:
         print("ERROR: No arguments given\n")
@@ -190,21 +208,11 @@ try:
                 file_det = os.path.splitext(filename)
                 file_ext = file_det[1]
                 out_file = file_det[0] + ".rs"
-                if file_ext != ".slug":
-                    print(filename)
-                    print("ERROR: Wrong filename")
-                    exit(1)
-                with open(filename, "r") as f:
-                    program = f.read().split()
-                program = program
-                com_prog(program)
-                os.system(f"rustc {out_file}")
-                os.system(f"./{file_det[0]}")
-                exit(0)
+                com_proc(filename, file_det, file_ext, out_file)
             except IndexError as e:
-                print(e)
-                print("ERROR: No filename given")
-                exit(1)
+                 print(e)
+                 print("ERROR: No filename given")
+                 exit(1)
         elif currentArgument in ("-i", "--interpret"):
             try:
                 filename = argv[2]
@@ -225,7 +233,7 @@ try:
             except IndexError:
                 print("ERROR: No filename given")
                 exit(1)
-
+        # elif currentArgument in ("-d", "--delete")
         elif currentArgument in ("-h", "--help"):
             usage()
             exit(0)
