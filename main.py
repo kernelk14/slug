@@ -35,7 +35,19 @@ token = [
     "/",      # token[7]
     "as",     # token[8]
     ";",      # token[9]
-    "for"     # token[10]
+    "for",    # token[10]
+    "..",     # token[11]
+    "do",     # token[12]
+    "end",    # token[13]
+    "while"   # token[14]
+    ]
+wl_token = [
+    "<",      # wl_token[0]
+    ">",      # wl_token[1]
+    "=",      # wl_token[2]
+    "!",      # wl_token[3]
+    "true",   # wl_token[4]
+    "false"   # wl_token[5]
     ]
 comment = "#"
 ending = token[9]
@@ -161,8 +173,32 @@ def com_prog(program):
                 out.write(f", {program[p-1]});\n")
             if op != whitespace:
                 key += op
-
-    # I don't even know how I will implement the `drop` instruction again.    
+        elif program[p] == token[10]:
+            out.write(f"  for i in {program[p+1]}")
+        elif program[p] == token[11]:
+            out.write(f"..{program[p+1]} ")
+        elif program[p] == token[12]:
+           out.write(" {\n  ")
+        elif program[p] == token[13]:
+            out.write("\n  }\n")
+        elif program[p] == token[14]:
+            out.write(f"  while ")
+            if program[p+1] == wl_token[4]:
+                out.write("true")
+            elif program[p+1] == wl_token[5]:
+                out.write("false")
+            else:
+                out.write(f"{program[p+1]} ")
+                # print("While loop")
+                if program[p+2] == wl_token[0]:
+                    out.write(f"< {program[p+3]}")
+                elif program[p+2] == wl_token[1]:
+                    out.write(f"> {program[p+3]}")
+                elif program[p+2] == wl_token[2]:
+                    out.write(f"== {program[p+3]}")
+                elif program[p+2] == wl_token[3]:
+                    out.write(f"!= {program[p+3]}")
+        # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
         op_stack = op_stack
         # print(f"OP Stack as of the valName call: {op_stack}")

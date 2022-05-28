@@ -69,6 +69,51 @@ a write
 b write
 c write
 ```
+
+For-loop:
+```
+put 1 as i
+for i .. 10 do
+  10 write
+  20 write
+  30 write
+end
+```
+While-loop(<):
+```
+while 1 < 10 do
+  5 write
+end
+```
+While-loop(>)
+```
+while 10 > 1 do
+  2 write
+end
+```
+While-loop(=)
+```
+put 1 as i
+while i = 1 do
+  15 write
+end
+```
+While-loop(!)
+```
+put 1 as i
+while i ! 1 do
+  100 write
+end
+```
+While-loop(true/false)
+```
+while true do
+  1 write
+end
+while false do
+  0 write
+end
+```
 # WARNING!!!
 ### This is still in development, do this in your own risk.
 
