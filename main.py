@@ -165,14 +165,17 @@ def com_prog(program):
             if op != whitespace:
                 key += op
         elif program[p] == token[10]:
-            out.write(f"  for ({program[p+1]}")
+            out.write(f"  for i in {program[p+1]}")
         elif program[p] == token[11]:
             out.write(f"..{program[p+1]} ")
-            out.write(")")
         elif program[p] == token[12]:
+<<<<<<< HEAD
             out.write("{\n  ")
             if True:
                 out.write("  ")
+=======
+            out.write(" {\n  ")
+>>>>>>> 0c466eef79f7fd8ec46478d4d8133ed4fb699b38
         elif program[p] == token[13]:
             out.write("\n  }\n")
     # I don't even know how I will implement the `drop` instruction again.    
