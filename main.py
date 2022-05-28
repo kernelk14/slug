@@ -171,6 +171,8 @@ def com_prog(program):
             out.write(")")
         elif program[p] == token[12]:
             out.write("{\n  ")
+            if True:
+                out.write("  ")
         elif program[p] == token[13]:
             out.write("\n  }\n")
     # I don't even know how I will implement the `drop` instruction again.    
