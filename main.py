@@ -39,7 +39,8 @@ token = [
     "..",     # token[11]
     "do",     # token[12]
     "end",    # token[13]
-    "while"   # token[14]
+    "while",  # token[14]
+    "if",     # token[15]
     ]
 wl_token = [
     "<",      # wl_token[0]
