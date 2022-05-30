@@ -1,0 +1,5 @@
+put 1 as i
+
+if i = 1 do
+    10 write
+end
