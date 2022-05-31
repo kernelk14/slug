@@ -114,6 +114,18 @@ while false do
   0 write
 end
 ```
+If-Else:
+```
+put 1 as i
+
+if i = 1 do
+  2 write
+elif i = 2 do
+  3 write
+else do
+  4 write
+end
+```
 # WARNING!!!
 ### This is still in development, do this in your own risk.
 
