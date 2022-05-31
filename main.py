@@ -41,6 +41,8 @@ token = [
     "end",    # token[13]
     "while",  # token[14]
     "if",     # token[15]
+    "else",   # token[16]
+    "elif",   # token[17]
     ]
 wl_token = [
     "<",      # wl_token[0]
@@ -215,7 +217,24 @@ def com_prog(program):
                     out.write(f"== {program[p+3]}")
                 elif program[p+2] == wl_token[3]:
                     out.write(f"!= {program[p+3]}")
-
+        elif program[p] == token[17]:
+            out.write("  } else if ")
+            if program[p+1] == wl_token[4]:
+                out.write("true")
+            elif program[p+1] == wl_token[5]:
+                out.write("false")
+            else:
+                out.write(f"{program[p+1]} ")
+                if program[p+2] == wl_token[0]:
+                    out.write(f"< {program[p+3]}")
+                elif program[p+2] == wl_token[1]:
+                    out.write(f"> {program[p+3]}")
+                elif program[p+2] == wl_token[2]:
+                    out.write(f"== {program[p+3]}")
+                elif program[p+2] == wl_token[3]:
+                    out.write(f"!= {program[p+3]}")
+        elif program[p] == token[16]:
+            out.write("  } else ")
         # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
         op_stack = op_stack
