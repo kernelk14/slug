@@ -21,10 +21,18 @@ To display help:
 $ slug -h 
 ```
 
+<<<<<<< HEAD
 To compile program(WARNING: compilation is still work in progress, but you can use it now.):
 ```console
 $ slug -c <filename>
 
+=======
+<<<<<<< HEAD
+To compile program(WARNING: compilation is still work in progress, but you can use it now.):
+```console
+$ slug -c <filename>
+=======
+>>>>>>> 50603243b0fb9b7cbd1785aa48d03b69770e5435
 To compile program(WARNING: compiling code is not done yet, but you can use it now.):
 ```console
 $ slug -c <filename>
@@ -33,6 +41,10 @@ $ slug -c <filename>
 To interpret program(I removed the interpretation mode permanently but I will still put the instructions here.):
 ```console
 $ slug -i <filename>
+<<<<<<< HEAD
+=======
+>>>>>>> 9fd345dd433a783395dd21a0bdadeecc1b4d21a7
+>>>>>>> 50603243b0fb9b7cbd1785aa48d03b69770e5435
 ```
 
 ## Language Basics
