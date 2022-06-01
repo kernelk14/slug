@@ -1,0 +1,3 @@
+put "Hello" as str
+
+str write
