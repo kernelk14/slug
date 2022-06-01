@@ -24,6 +24,15 @@ $ slug -h
 To compile program(WARNING: compilation is still work in progress, but you can use it now.):
 ```console
 $ slug -c <filename>
+
+To compile program(WARNING: compiling code is not done yet, but you can use it now.):
+```console
+$ slug -c <filename>
+```
+
+To interpret program(I removed the interpretation mode permanently but I will still put the instructions here.):
+```console
+$ slug -i <filename>
 ```
 
 ## Language Basics
