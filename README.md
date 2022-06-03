@@ -26,6 +26,13 @@ $ slug -c <filename>
 ```
 
 ## Language Basics
+To add a function `main()`:
+```
+job main do
+...
+end
+```
+
 To put a number into a stack and print it you do:
 ```
 put 20 write
