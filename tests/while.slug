@@ -1,7 +1,9 @@
-while true do
-    5 write
-end
+job main do
+    while true do
+        5 write
+    end
 
-while 5 < 10 do
-    10 write
+    while 5 < 10 do
+        10 write
+    end
 end

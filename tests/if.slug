@@ -1,9 +1,11 @@
-put 30 as i
+job main do
+    put 30 as i
 
-if i = 1 do
-    10 write
-elif i = 2 do
-    15 write
-else do
-    5 write
+    if i = 1 do
+       10 write
+    elif i = 2 do
+       15 write
+    else do
+       5 write
+    end
 end
