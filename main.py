@@ -44,6 +44,7 @@ token = [
     "else",   # token[16]
     "elif",   # token[17]
     "job",    # token[18]
+    "use",    # token[19]
     ]
 wl_token = [
     "<",      # wl_token[0]
@@ -93,6 +94,8 @@ for p, op in enumerate(program):
             if program[p+1] == whitespace:
                 print(key)
                 key = ''
+        if program[p] == token[19]:
+            out.write(f"use {program[p+1]};\n")
         if program[p] == token[18]:
             out.write(f"fn {program[p+1]}() ")
         if program[p] == token[0]:
