@@ -43,6 +43,8 @@ token = [
     "if",     # token[15]
     "elif",   # token[16]
     "else",   # token[17]
+    "use",    # token[18]
+    "job",    # token[19]
     ]
 wl_token = [
     "<",      # wl_token[0]
@@ -82,7 +84,7 @@ def com_prog(program):
     out = open(out_file, "w")
     out.write("#[allow(unused_variables, unused_assignments, unused_imports)]\n")
     out.write("use std::io;\n")
-    out.write("fn main() {\n")
+    # out.write("fn main() {\n")
     for p, op in enumerate(program):
         if op != whitespace:
             key += op
@@ -238,6 +240,10 @@ def com_prog(program):
                     out.write(f"!= {program[p+3]}")
         elif program[p] == token[17]:
             out.write("  } else ")
+        elif program[p] == token[18]:
+            out.write(f"use {program[p+1]};\n")
+        elif program[p] == token[19]:
+            out.write(f"fn {program[p+1]}() ")
         # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
         op_stack = op_stack
@@ -248,7 +254,7 @@ def com_prog(program):
             assert False, "You can screw up the transpiled code."
             if op != whitespace:
                 key += op
-    out.write("}\n")
+    # out.write("}\n")
 def usage():
     # print("Slug")
     print("./main.py [args] <filename>")
