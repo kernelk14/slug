@@ -11,7 +11,7 @@
 import os
 import getopt
 import sys
-# import re
+import re
 
 # Command Line Arguments.
 argv = sys.argv
@@ -41,10 +41,8 @@ token = [
     "end",    # token[13]
     "while",  # token[14]
     "if",     # token[15]
-    "else",   # token[16]
-    "elif",   # token[17]
-    "job",    # token[18]
-    "use",    # token[19]
+    "elif",   # token[16]
+    "else",   # token[17]
     ]
 wl_token = [
     "<",      # wl_token[0]
@@ -59,8 +57,6 @@ ending = token[9]
 # The Stack. It stores all the data the programming language parse into a file.
 stack = []
 value_stack = []
-# I'm finding new features to add.
-
 # Defining OPs.
 def push(x):
     return (OP_PUSH, x)
@@ -86,18 +82,14 @@ def com_prog(program):
     out = open(out_file, "w")
     out.write("#[allow(unused_variables, unused_assignments, unused_imports)]\n")
     out.write("use std::io;\n")
-    # out.write("fn main() {\n")
-for p, op in enumerate(program):
+    out.write("fn main() {\n")
+    for p, op in enumerate(program):
         if op != whitespace:
             key += op
         if (p + 1 < len(program)):
             if program[p+1] == whitespace:
                 print(key)
                 key = ''
-        if program[p] == token[19]:
-            out.write(f"use {program[p+1]};\n")
-        if program[p] == token[18]:
-            out.write(f"fn {program[p+1]}() ")
         if program[p] == token[0]:
             value_stack = value_stack
             op_stack = op_stack
@@ -217,6 +209,25 @@ for p, op in enumerate(program):
                 out.write("false")
             else:
                 out.write(f"{program[p+1]} ")
+                # print("While loop")
+                if program[p+2] == wl_token[0]:
+                    out.write(f"< {program[p+3]}")
+                elif program[p+2] == wl_token[1]:
+                    out.write(f"> {program[p+3]}")
+                elif program[p+2] == wl_token[2]:
+                    out.write(f"== {program[p+3]}")
+                elif program[p+2] == wl_token[3]:
+                    out.write(f"!= {program[p+3]}")
+
+        elif program[p] == token[16]:
+            out.write("  } else if ")
+            if program[p+1] == wl_token[4]:
+                out.write("true")
+            elif program[p+1] == wl_token[5]:
+                out.write("false")
+            else:
+                out.write(f"{program[p+1]} ")
+                # print("While loop")
                 if program[p+2] == wl_token[0]:
                     out.write(f"< {program[p+3]}")
                 elif program[p+2] == wl_token[1]:
@@ -226,22 +237,6 @@ for p, op in enumerate(program):
                 elif program[p+2] == wl_token[3]:
                     out.write(f"!= {program[p+3]}")
         elif program[p] == token[17]:
-            out.write("  } else if ")
-            if program[p+1] == wl_token[4]:
-                out.write("true")
-            elif program[p+1] == wl_token[5]:
-                out.write("false")
-            else:
-                out.write(f"{program[p+1]} ")
-                if program[p+2] == wl_token[0]:
-                    out.write(f"< {program[p+3]}")
-                elif program[p+2] == wl_token[1]:
-                    out.write(f"> {program[p+3]}")
-                elif program[p+2] == wl_token[2]:
-                    out.write(f"== {program[p+3]}")
-                elif program[p+2] == wl_token[3]:
-                    out.write(f"!= {program[p+3]}")
-        elif program[p] == token[16]:
             out.write("  } else ")
         # I don't even know how I will implement the `drop` instruction again.    
         last_op = op_stack[2:]
@@ -253,7 +248,7 @@ for p, op in enumerate(program):
             assert False, "You can screw up the transpiled code."
             if op != whitespace:
                 key += op
-    # out.write("}\n")
+    out.write("}\n")
 def usage():
     # print("Slug")
     print("./main.py [args] <filename>")
