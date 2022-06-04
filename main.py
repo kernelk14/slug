@@ -257,7 +257,7 @@ def com_prog(program):
     # out.write("}\n")
 def usage():
     # print("Slug")
-    print("./main.py [args] <filename>")
+    print("slug [args] <filename>")
     print("              -c --compile       Compile program")
     print("              -h --help          Display help")
 def com_proc(filename, file_det, file_ext, out_file):
