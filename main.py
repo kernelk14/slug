@@ -1,29 +1,32 @@
 #!/usr/bin/env python3
 
+# Copyright {{{
 # Copyright 2022, Khyle Isaias (kernelk14) <khyleisaias@gmail.com>
 """ This project is in the MIT License. See `LICENSE` for details."""
 
 """ This is the source code for the Slug Programming Language """
 
 """ WARNING: Some of this code is stolen from Tsoding's old Porth source code. """
-
-# Importing Libraries
+# }}}
+# Importing Libraries {{{
 import os
 import getopt
 import sys
 import re
-
-# Command Line Arguments.
+# }}}
+# Command Line Arguments. {{{
 argv = sys.argv
-# The OPs. It is important for the Programming Language.
+# }}}
+# The OPs. It is important for the Programming Language. {{{
 OP_PUSH = 0
 OP_PLUS = 1
 OP_MINUS = 2
 OP_DUMP = 3
 OP_DROP = 4
 COUNT_OPS = 11
+# }}}
 
-
+# Token Lists {{{
 token = [
     "put",    # token[0]
     "+",      # token[1]
@@ -56,10 +59,12 @@ wl_token = [
     ]
 comment = "#"
 ending = token[9]
-# The Stack. It stores all the data the programming language parse into a file.
+# }}}
+# The Stack. It stores all the data the programming language parse into a file. {{{
 stack = []
 value_stack = []
-# Defining OPs.
+# }}}
+# Defining OPs. {{{
 def push(x):
     return (OP_PUSH, x)
 def plus():
@@ -68,9 +73,9 @@ def minus():
     return (OP_MINUS, )
 def write():
     return (OP_DUMP, )
+# }}}
 
-
-# For running the program.        
+# For running the program. {{{       
 def com_prog(program):
     # assert False, "Compiling programs not done yet."
     # TODO: Find new language for compiling.
@@ -147,7 +152,8 @@ def com_prog(program):
             if program[p] == token[8]:
                 valName = program[p-1]
             else:
-                valName = valName
+                pass
+                # valName = valName
             a = op_stack.pop()
             b = op_stack.pop()
             out.write(f"  let {program[p+2]} = {a} - {b};\n")
@@ -245,7 +251,7 @@ def com_prog(program):
         elif program[p] == token[19]:
             out.write(f"fn {program[p+1]}() ")
         # I don't even know how I will implement the `drop` instruction again.    
-        last_op = op_stack[2:]
+        # last_op = op_stack[2:]
         op_stack = op_stack
         # print(f"OP Stack as of the valName call: {op_stack}")
         # print(f"Last OP Call: {op_stack[2:]}")
@@ -255,6 +261,8 @@ def com_prog(program):
             if op != whitespace:
                 key += op
     # out.write("}\n")
+# }}}
+# Command Line Arguments. {{{
 def usage():
     # print("Slug")
     print("slug [args] <filename>")
@@ -322,3 +330,4 @@ try:
 except getopt.error as err:
     print(str(err))
 usage()
+# }}}
