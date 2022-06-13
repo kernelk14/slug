@@ -14,6 +14,7 @@ import getopt
 import sys
 import re
 # }}}
+VERSION = '0.3.6-12beta'
 # Command Line Arguments. {{{
 argv = sys.argv
 # }}}
@@ -25,7 +26,6 @@ OP_DUMP = 3
 OP_DROP = 4
 COUNT_OPS = 11
 # }}}
-
 # Token Lists {{{
 token = [
     "put",    # token[0]
@@ -48,6 +48,7 @@ token = [
     "else",   # token[17]
     "use",    # token[18]
     "job",    # token[19]
+    "call",   # token[20]
     ]
 wl_token = [
     "<",      # wl_token[0]
@@ -250,6 +251,8 @@ def com_prog(program):
             out.write(f"use {program[p+1]};\n")
         elif program[p] == token[19]:
             out.write(f"fn {program[p+1]}() ")
+        elif program[p] == token[20]:
+            out.write(f"{program[p+1]}();\n")
         # I don't even know how I will implement the `drop` instruction again.    
         # last_op = op_stack[2:]
         op_stack = op_stack
@@ -268,6 +271,7 @@ def usage():
     print("slug [args] <filename>")
     print("              -c --compile       Compile program")
     print("              -h --help          Display help")
+    print("              -v --version       Display version number")
 def com_proc(filename, file_det, file_ext, out_file):
     if file_ext != ".slug":
         print(filename)
@@ -283,8 +287,8 @@ def compile(out_file, file_det):
     os.system(f"rustc {out_file}")
     os.system(f"./{file_det[0]}")
 argList = argv[1:]
-opts = "ci:hd"
-long_opts = ["compile", "interpret", "help", "delete"]
+opts = "ci:hdv"
+long_opts = ["compile", "interpret", "help", "delete", "version"]
 try:
     if len(sys.argv) < 2:
         print("ERROR: No arguments given\n")
@@ -327,6 +331,9 @@ try:
         elif currentArgument in ("-h", "--help"):
             usage()
             exit(0)
+        elif currentArgument in ("-v", "--version"):
+            print(f"Slug Programming Language, version {VERSION}\n")
+            exit(1)
 except getopt.error as err:
     print(str(err))
 usage()

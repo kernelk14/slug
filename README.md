@@ -132,6 +132,16 @@ else do
   4 write
 end
 ```
+Function calls:
+```
+job work do
+    10 write
+end
+
+job main do
+    call work
+end
+```
 # WARNING!!!
 ### This is still in development, do this in your own risk.
 
