@@ -1,0 +1,23 @@
+job call1 do
+	5 write
+end
+
+job call2 do
+	call call1
+end
+
+job call3 do
+	call call2
+end
+
+job call4 do
+	call call3
+end
+
+job call5 do
+	call call4
+end
+
+job main do
+	call call5
+end
