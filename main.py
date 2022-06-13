@@ -12,7 +12,7 @@
 import os
 import getopt
 import sys
-import re
+# import re
 # }}}
 VERSION = '0.3.6-12beta'
 # Command Line Arguments. {{{
@@ -81,7 +81,7 @@ def com_prog(program):
     # assert False, "Compiling programs not done yet."
     # TODO: Find new language for compiling.
     # I've changed the transpiled language from C++ to Rust.
-    stack = []
+    # stack = []
     value_stack = []
     op_stack = []
     key = ''
@@ -285,7 +285,7 @@ def com_proc(filename, file_det, file_ext, out_file):
     exit(0)
 def compile(out_file, file_det):
     os.system(f"rustc {out_file}")
-    os.system(f"./{file_det[0]}")
+    # os.system(f"./{file_det[0]}")
 argList = argv[1:]
 opts = "ci:hdv"
 long_opts = ["compile", "interpret", "help", "delete", "version"]
