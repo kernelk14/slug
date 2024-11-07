@@ -1,9 +1,13 @@
 job main do
-    while true do
+    put 0 as i
+    put 0 as j
+    while i < 3 do
         5 write
+        i 1 inc
     end
 
-    while 5 < 10 do
+    while j < 10 do
         10 write
+        j 1 inc
     end
 end

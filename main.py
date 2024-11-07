@@ -49,6 +49,8 @@ token = [
     "use",    # token[18]
     "job",    # token[19]
     "call",   # token[20]
+    "inc",    # token[21]
+    "dec",    # token[22]
     ]
 wl_token = [
     "<",      # wl_token[0]
@@ -88,7 +90,7 @@ def com_prog(program):
     whitespace = ' '
     out_file = file_det[0] + ".rs"
     out = open(out_file, "w")
-    out.write("#[allow(unused_variables, unused_assignments, unused_imports)]\n")
+    out.write("#[allow(unused_variables, unused_assignments, unused_imports, unused_mut)]\n")
     out.write("use std::io;\n")
     # out.write("fn main() {\n")
     for p, op in enumerate(program):
@@ -117,7 +119,7 @@ def com_prog(program):
                 # out.write("}\n")
             # TODO: Find ways to parse string literals.
             else:
-                out.write(f"{program[p+1]} = {program[p-1]};\n")
+                out.write(f"mut {program[p+1]} = {program[p-1]};\n")
             # print("Operations reached here.")
             # print(f"OP Stack: {op_stack}")
             if op != whitespace:
@@ -227,7 +229,10 @@ def com_prog(program):
                     out.write(f"== {program[p+3]}")
                 elif program[p+2] == wl_token[3]:
                     out.write(f"!= {program[p+3]}")
-
+        elif program[p] == token[21]:
+            out.write(f"  {program[p-2]} += {program[p-1]};\n")
+        elif program[p] == token[22]:
+            out.write(f"  {program[p-2]} -= {program[p-1]};\n")
         elif program[p] == token[16]:
             out.write("  } else if ")
             if program[p+1] == wl_token[4]:

@@ -87,14 +87,18 @@ end
 ```
 While-loop(<):
 ```
-while 1 < 10 do
+put 0 as i
+while i < 10 do
   5 write
+  i 1 inc
 end
 ```
 While-loop(>)
 ```
-while 10 > 1 do
+put 10 as x
+while x > 1 do
   2 write
+  x 1 dec
 end
 ```
 While-loop(=)
